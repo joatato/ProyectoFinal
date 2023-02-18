@@ -53,7 +53,7 @@ router.post('/', async (req, res) => {
     console.log(req.body)
 
     let product = req.body
-    if (!product.tittle || !product.description || !product.code || !product.price || !product.stock || !product.category || Object.keys(product).some(key => key !== 'tittle' && key !== 'description' && key !== 'code' && key !== 'price' && key !== 'stock' && key !== 'category')) {
+    if (!product.tittle || !product.description || !product.code || !product.price || !product.stock || !product.category || Object.keys(product).some(key => key !== 'tittle' && key !== 'description' && key !== 'code' && key !== 'price' && key !== 'stock' && key !== 'category'&& key !== 'thumbnail')) {
         res.setHeader('Content-Type', 'application/json')
         let falta = []
         if (!product.tittle) {
