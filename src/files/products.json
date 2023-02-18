@@ -1,0 +1,32 @@
+[
+     {
+          "tittle": "Vino Tinto",
+          "description": "Bebida alcohólica",
+          "code": "1234",
+          "price": "25",
+          "category": "bebida",
+          "stock": "2",
+          "status": true,
+          "id": "b136d001-ab24-4a90-992e-48c733eaf72c"
+     },
+     {
+          "tittle": "Queso",
+          "description": "alimento derivado de la vaca",
+          "code": "1234",
+          "price": "25",
+          "category": "lacteo",
+          "stock": "2",
+          "status": true,
+          "id": "f40d82aa-db87-4bb8-ba86-5a322fb20ed3"
+     },
+     {
+          "tittle": "Papa",
+          "description": "Bebida alcohólica",
+          "code": "1234",
+          "price": "25",
+          "category": "verdura",
+          "stock": "2",
+          "status": true,
+          "id": "d76fe50c-2073-4fa9-92f8-083536606b60"
+     }
+]
