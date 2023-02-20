@@ -127,7 +127,7 @@ router.delete('/:pid', async (req, res) => {
         let eliminado = await cm.getcartById(id)
         res.setHeader('Content-Type', 'application/json')
         return res.status(200).json({
-            message: `Todo ok... carta con id ${id} eliminado: ${eliminado.tittle}`,
+            message: `Todo ok... carta con id ${id} eliminado: ${eliminado.title}`,
             carts
         })
     }

@@ -17,15 +17,15 @@ class productManager {
 
     async addProduct(product) {
         let products = await this.getProduct()
-        let tittle = products.findIndex(pr => pr.tittle == product.tittle)
-        if (tittle == -1) {
+        let code = products.findIndex(pr => pr.code == product.code)
+        if (code == -1) {
             product.status = true
             product.id = uuidv4()
             products.push(product)
             await fs.promises.writeFile(this.path, JSON.stringify(products, null, 5))
             return true
         } else {
-            console.log(`El product ${product.tittle} ya existe en ${this.path}`)
+            console.log(`El producto con código: ${product.code} . Ya existe en ${this.path}`)
             return false
         }
     }

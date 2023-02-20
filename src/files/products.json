@@ -1,6 +1,6 @@
 [
      {
-          "tittle": "Queso",
+          "title": "Queso",
           "description": "alimento derivado de la vaca",
           "code": "1234",
           "price": "25",
@@ -10,7 +10,7 @@
           "id": "f40d82aa-db87-4bb8-ba86-5a322fb20ed3"
      },
      {
-          "tittle": "Papa",
+          "title": "Papa",
           "description": "Bebida alcohólica",
           "code": "1234",
           "price": "25",
@@ -20,7 +20,7 @@
           "id": "d76fe50c-2073-4fa9-92f8-083536606b60"
      },
      {
-          "tittle": "Pan",
+          "title": "Pan",
           "description": "Fruta amarilla",
           "code": "1234",
           "price": "25",
@@ -30,7 +30,7 @@
           "id": "ba5c6617-0753-4a29-9314-112c8457ca25"
      },
      {
-          "tittle": "Frutilla",
+          "title": "Frutilla",
           "description": "Fruta amarilla",
           "code": "1234",
           "price": "25",

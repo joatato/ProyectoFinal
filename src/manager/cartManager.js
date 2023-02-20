@@ -73,8 +73,8 @@ class cartManager {
         if (existencia !== -1) {
             function saberQueEsCampo() {
                 switch (campo) {
-                    case "tittle":
-                        return copiacart.tittle = cambio
+                    case "title":
+                        return copiacart.title = cambio
                     case "descrioption":
                         return copiacart.description = cambio
                     case "price":

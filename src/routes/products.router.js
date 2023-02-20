@@ -53,11 +53,11 @@ router.post('/', async (req, res) => {
     console.log(req.body)
 
     let product = req.body
-    if (!product.tittle || !product.description || !product.code || !product.price || !product.stock || !product.category || Object.keys(product).some(key => key !== 'tittle' && key !== 'description' && key !== 'code' && key !== 'price' && key !== 'stock' && key !== 'category'&& key !== 'thumbnail')) {
+    if (!product.title || !product.description || !product.code || !product.price || !product.stock || !product.category || Object.keys(product).some(key => key !== 'title' && key !== 'description' && key !== 'code' && key !== 'price' && key !== 'stock' && key !== 'category'&& key !== 'thumbnail')) {
         res.setHeader('Content-Type', 'application/json')
         let falta = []
-        if (!product.tittle) {
-            falta.push("tittle")
+        if (!product.title) {
+            falta.push("title")
         }
         if (!product.description) {
             falta.push("description")
@@ -99,7 +99,7 @@ router.post('/', async (req, res) => {
     } else {
         res.setHeader('Content-Type', 'application/json')
         res.status(400).json({
-            message: `400 Bad Request. El product ${product.tittle} ya existe en ${pm.path}`
+            message: `400 Bad Request. El product con código: ${product.code} . Ya existe en la base de datos`
         })
     }
 })
@@ -156,7 +156,7 @@ router.delete('/:pid', async (req, res) => {
         let eliminado = await pm.getProductById(id)
         res.setHeader('Content-Type', 'application/json')
         return res.status(200).json({
-            message: `Todo ok... producto con id ${id} eliminado: ${eliminado.tittle}`,
+            message: `Todo ok... producto con id ${id} eliminado: ${eliminado.title}`,
             products
         })
     }
