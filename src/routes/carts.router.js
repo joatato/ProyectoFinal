@@ -21,31 +21,20 @@ router.get('/', async (req, res) => {
 router.get('/:cid', async (req, res) => {
     let id = req.params.cid
     let carrito = await cm.getCartById(id)
-    let productos = carrito.product
-    res.setHeader('Content-type', 'application/json')
-    res.status(200).json({
-        message: `Los productos del carrito ${id} son: `,
-        productos
-    })
-})
-
-
-router.get('/:pid', async (req, res) => {
-    let id = req.params.pid
-    let cart = await cm.getcartById(id)
-    if (cart) {
-        res.setHeader('Content-Type', 'application/json')
+    let productos = carrito.products
+    if (carrito) {
+        res.setHeader('Content-type', 'application/json')
         return res.status(200).json({
-            message: `Aqui tiene su carta con id ${id}`,
-            cart
+            message: `Los productos del carrito ${id} son: `,
+            productos
         })
     }
+
     res.setHeader('Content-Type', 'application/json')
     res.status(404).json({
         message: `404 Not Found. No se ha encontrado un carta con el id: ${id}`
     })
 })
-
 
 
 router.post('/', async (req, res) => {
