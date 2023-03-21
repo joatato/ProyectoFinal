@@ -1,0 +1,23 @@
+<h1>Bienvenido a {{title}}</h1>
+
+<hr>
+
+<h2>Productos de nuestra empresa</h2>
+
+{{#if existenciaDeStock}}
+<ul>
+    {{#each productos}}
+    <li>
+        <b> {{this.title}}</b>
+        <br>
+        Precio: {{this.price}}
+        <br>
+        Descripción: {{this.description}}
+        <br>
+    </li>
+    {{/each}}
+</ul>
+
+{{else}}
+<h3>No hay stock </h3>
+{{/if}} 

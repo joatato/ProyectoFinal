@@ -1,35 +1,5 @@
 [
      {
-          "title": "Queso",
-          "description": "alimento derivado de la vaca",
-          "code": "1234",
-          "price": "25",
-          "category": "lacteo",
-          "stock": "2",
-          "status": true,
-          "id": "f40d82aa-db87-4bb8-ba86-5a322fb20ed3"
-     },
-     {
-          "title": "Papa",
-          "description": "Bebida alcohólica",
-          "code": "1234",
-          "price": "25",
-          "category": "verdura",
-          "stock": "2",
-          "status": true,
-          "id": "d76fe50c-2073-4fa9-92f8-083536606b60"
-     },
-     {
-          "title": "Pan",
-          "description": "Fruta amarilla",
-          "code": "1234",
-          "price": "25",
-          "stock": "1",
-          "category": "fruta",
-          "status": true,
-          "id": "ba5c6617-0753-4a29-9314-112c8457ca25"
-     },
-     {
           "title": "Frutilla",
           "description": "Fruta amarilla",
           "code": "1234",
@@ -39,5 +9,85 @@
           "category": "fruta",
           "status": true,
           "id": "0244b685-7bf4-4d5a-a124-cd094a0ce1ec"
+     },
+     {
+          "title": "Limon",
+          "description": "Fruta amarilla",
+          "code": "1764",
+          "price": "25",
+          "stock": "2",
+          "category": "fruta",
+          "status": true,
+          "id": "20fafdba-9688-4459-8543-fb591a4929f6"
+     },
+     {
+          "title": "Coca",
+          "description": "Fruta amarilla",
+          "code": "1758",
+          "price": "501",
+          "stock": "2",
+          "category": "fruta",
+          "status": true,
+          "id": "790e4d89-df92-4063-953b-1f4f868f8357"
+     },
+     {
+          "title": "Zapallito",
+          "description": "Fruta amarilla",
+          "code": "1734",
+          "price": "25",
+          "stock": "2",
+          "category": "fruta",
+          "status": true,
+          "id": "cadf91f3-de09-4499-9e93-7f22a4cce976"
+     },
+     {
+          "title": "Zapallo",
+          "description": "verdura",
+          "code": "1735",
+          "price": "25",
+          "stock": "2",
+          "category": "fruta",
+          "status": true,
+          "id": "d026cf2d-9691-49f8-8273-130195c0464a"
+     },
+     {
+          "title": "Zapa",
+          "description": "Fruta amarilla",
+          "code": "1736",
+          "price": "25",
+          "stock": "2",
+          "category": "fruta",
+          "status": true,
+          "id": "fc75cb18-0dc9-4b07-be3b-e50d6fc10930"
+     },
+     {
+          "title": "Frutilla",
+          "description": "Fruta amarilla",
+          "code": "1000",
+          "price": "25",
+          "stock": "2",
+          "category": "fruta",
+          "status": true,
+          "id": "cbed035b-0e44-42f4-b16c-9728f2f86a65"
+     },
+     {
+          "title": "Pizza",
+          "description": "Hecha de masa",
+          "code": "1001",
+          "price": "25",
+          "stock": "2",
+          "category": "fruta",
+          "status": true,
+          "id": "c799d6b2-e3dc-4903-9b05-2ed38dab3c99"
+     },
+     {
+          "title": "Palmitos",
+          "description": "Hecha de masa",
+          "code": "1002",
+          "price": "25",
+          "stock": "2",
+          "category": "fruta",
+          "status": true,
+          "id": "b096afd8-5a43-4d17-be78-1acdc7452486"
      }
 ]

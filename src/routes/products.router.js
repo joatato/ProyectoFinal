@@ -1,34 +1,15 @@
-const { Router } = require('express')
+import { Router } from 'express';
+import productManager from '../dao/productManagerDB.js';
+
 const router = Router()
-const productManager = require('../manager/productManager')
-const pm = new productManager("./src/files/products.json")
+const pm = new productManager()
+// const pm = new productManager("./src/files/products.json")
+
+/* const io = require('socket.io')(); */
 
 
-router.get('/', async (req, res) => {
-    let limit = req.query.limit
-    let products = await pm.getProduct()
-    if (limit < products.length) {
-        let productsLimit = products
-        productsLimit.splice(limit, products.length - limit)
-        res.setHeader('Content-type', 'application/json')
-        res.status(200).json({
-            message: `Los ${limit} productos:`,
-            productsLimit
-        })
-    } else if (products) {
-        res.setHeader('Content-type', 'application/json')
-        res.status(200).json({
-            message: "Los productos actuales son: ",
-            products
-        })
-    } else {
-        res.setHeader('Content-Type', 'application/json')
-        res.status(404).json({
-            message: "404 Not Found. No hay productos aún"
-        })
-    }
-})
 
+router.get('/',pm.getProduct)
 
 
 router.get('/:pid', async (req, res) => {
@@ -46,14 +27,16 @@ router.get('/:pid', async (req, res) => {
         message: `404 Not Found. No se ha encontrado un producto con el id: ${id}`
     })
 })
+ 
+
+router.post('/', pm.addProduct)
 
 
-
-router.post('/', async (req, res) => {
+/* router.post('/', async (req, res) => {
     console.log(req.body)
-
+    let io = req.serverSocket
     let product = req.body
-    if (!product.title || !product.description || !product.code || !product.price || !product.stock || !product.category || Object.keys(product).some(key => key !== 'title' && key !== 'description' && key !== 'code' && key !== 'price' && key !== 'stock' && key !== 'category'&& key !== 'thumbnail')) {
+    if (!product.title || !product.description || !product.code || !product.price || !product.stock || !product.category || Object.keys(product).some(key => key !== 'title' && key !== 'description' && key !== 'code' && key !== 'price' && key !== 'stock' && key !== 'category' && key !== 'thumbnail')) {
         res.setHeader('Content-Type', 'application/json')
         let falta = []
         if (!product.title) {
@@ -90,11 +73,14 @@ router.post('/', async (req, res) => {
     }
     let productAdded = await pm.addProduct(product)
     if (productAdded) {
+        let products = await pm.getProduct()
+        io.emit('editProduct', products);
+
         console.log(productAdded)
         res.setHeader('Content-Type', 'application/json')
         return res.status(201).json({
             message: `Todo ok...!`,
-            product,
+            product
         })
     } else {
         res.setHeader('Content-Type', 'application/json')
@@ -102,11 +88,12 @@ router.post('/', async (req, res) => {
             message: `400 Bad Request. El product con código: ${product.code} . Ya existe en la base de datos`
         })
     }
-})
+}) */
 
 
 
 router.put('/:pid', async (req, res) => {
+    let io = req.serverSocket
     let id = req.params.pid
     let key = req.body.key
     let value = req.body.value
@@ -133,6 +120,8 @@ router.put('/:pid', async (req, res) => {
 
     if (indice) {
         await pm.updateProduct(id, key, value)
+        let products = await pm.getProduct()
+        io.emit('editProduct', products);
         let product = await pm.getProductById(id)
         res.setHeader('Content-Type', 'application/json')
         return res.status(201).json({
@@ -149,11 +138,15 @@ router.put('/:pid', async (req, res) => {
 
 
 router.delete('/:pid', async (req, res) => {
+    let io = req.serverSocket
     let id = req.params.pid
+    let eliminado = await pm.getProductById(id)
     let quePaso = await pm.deleteProduct(id)
     let products = await pm.getProduct()
     if (quePaso) {
-        let eliminado = await pm.getProductById(id)
+        let products2 = await pm.getProduct()
+        io.emit('editProduct', products2);
+
         res.setHeader('Content-Type', 'application/json')
         return res.status(200).json({
             message: `Todo ok... producto con id ${id} eliminado: ${eliminado.title}`,
@@ -162,10 +155,10 @@ router.delete('/:pid', async (req, res) => {
     }
     res.setHeader('Content-Type', 'application/json')
     res.status(404).json({
-        message: `404 Not Found. No se encontro el producto con id ${idProduct}`,
+        message: `404 Not Found. No se encontro el producto con id ${id}`,
         products
     })
 
 })
 
-module.exports = router
+export default router
