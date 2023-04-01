@@ -5,14 +5,7 @@ const cm = new cartManager('./src/files/carts.json');
 import productManager from '../dao/productManagerFS.js';
 const pm = new productManager("./src/files/products.json");
 
-router.get('/', async (req, res) => {
-    let carritos = await cm.getCart()
-    res.setHeader('Content-type', 'application/json')
-    res.status(200).json({
-        message: "Los carritos actuales son: ",
-        carritos
-    })
-})
+router.get('/', cm.getCart)
 
 router.get('/:cid', async (req, res) => {
     let id = req.params.cid
@@ -33,15 +26,7 @@ router.get('/:cid', async (req, res) => {
 })
 
 
-router.post('/', async (req, res) => {
-    let carrito = await cm.addCart()
-    res.setHeader('Content-Type', 'application/json')
-    res.status(200).json({
-        message: `Se ha creado el carrito.`,
-        carrito
-    })
-
-})
+router.post('/', cm.addCart)
 
 router.post('/:cid/product/:pid', async (req, res) => {
     let idCart = req.params.cid

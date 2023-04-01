@@ -3,12 +3,17 @@ import { Schema, model } from "mongoose";
 const cartsColeccion = 'carts';
 
 const cartsEsquema = new Schema({
-    products: [
-        {
-            id:Number,
-            quantity: Number
-        }
-    ]
+    products: {
+        type: [
+            {
+                product: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'products'
+                },
+                quantity: Number 
+            }
+        ]
+    }
 });
 
-export const cartsModelo = model(cartsColeccion, cartsEsquema)
+export const cartsModels = model(cartsColeccion, cartsEsquema)

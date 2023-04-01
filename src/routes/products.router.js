@@ -9,7 +9,7 @@ const pm = new productManager()
 
 
 
-router.get('/',pm.getProduct)
+router.get('/', pm.getProduct)
 
 
 router.get('/:pid', async (req, res) => {
@@ -27,7 +27,7 @@ router.get('/:pid', async (req, res) => {
         message: `404 Not Found. No se ha encontrado un producto con el id: ${id}`
     })
 })
- 
+
 
 router.post('/', pm.addProduct)
 

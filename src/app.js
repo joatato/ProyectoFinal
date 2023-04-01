@@ -7,6 +7,10 @@ import productsRouter from './routes/products.router.js';
 import cartsRouter from './routes/carts.router.js';
 import viewsRouter from './routes/views.router.js';
 
+//import path from 'path'
+
+
+
 const PORT = 8080;
 
 const app = express();
@@ -23,11 +27,12 @@ app.engine('handlebars', engine({
   }
 }));
 app.set('view engine', 'handlebars');
+//app.set('views', path2.join(__dirname,'./views'));
 app.set('views', './src/views');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('./src/public/assets/js'));
+app.use(express.static('./src/public/assets'));
 
 app.use('/api/products', (req, res, next) => {
   req.serverSocket = io;
@@ -95,5 +100,39 @@ const env = async () => {
 
 
 env();
+
+const mensajes = [];
+const serverSockets = new Server(server);
+
+serverSockets.on('connection', (socket) => {
+  // console.log(socket.handshake);
+  console.log(`Se han conectado, socket id ${socket.id}`)
+
+  socket.emit('hola', {
+    emisor: 'Servidor',
+    mensaje: `Hola, desde el server...!!!`,
+    mensajes
+  })
+
+  socket.on('respuestaAlSaludo', (mensaje) => {
+    console.log(`${mensaje.emisor} dice ${mensaje.mensaje}`);
+
+    socket.broadcast.emit('nuevoUsuario', mensaje.emisor)
+  })
+
+  socket.on('mensaje', (mensaje) => {
+    console.log(`${mensaje.emisor} dice ${mensaje.mensaje}`);
+
+    // todo el codigo que quiera...
+    mensajes.push(mensaje);
+    console.log(mensajes);
+
+    // socket.broadcast.emit('nuevoMensaje',mensaje)
+    serverSockets.emit('nuevoMensaje', mensaje)
+
+  })
+
+
+}) // fin de server.on connection
 
 server.on('error', (error) => console.log(error));

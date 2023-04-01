@@ -1,5 +1,6 @@
+import { cartsModels } from "./models/cartModels"
 import { v4 as uuidv4 } from 'uuid';
-import fs from 'fs';
+
 
 export default class cartManager {
 
@@ -8,20 +9,33 @@ export default class cartManager {
     }
 
     async getCart() {
-        if (fs.existsSync(this.path)) {
-            let lectura = await fs.promises.readFile(this.path, "utf-8")
-            return JSON.parse(lectura)
-        } else {
-            return []
-        }
+        let carts = await cartsModels.find()
+        res.setHeader('Content-Type', 'application/json');
+        res.status(200).json({
+            message: 'Todo ok...',
+            carts
+        })
     }
 
-    async addCart() {
-        let cart = { id: uuidv4(), products: [] }
-        let carts = await this.getCart()
-        carts.push(cart)
-        await fs.promises.writeFile(this.path, JSON.stringify(carts, null, 5))
-        return cart
+    async addCart(id) {
+        let cartsEnVerificacion
+        await cartsModels.findOne({ products: id }) ? cartsEnVerificacion = false : cartsEnVerificacion = true
+        console.log(cartsEnVerificacion);
+        if (cartsEnVerificacion) {
+            await cartsModels.create(id);
+            let carts = await cartsModels.find()
+            res.setHeader('Content-Type', 'application/json');
+            res.status(200).json({
+                message: 'Todo ok...',
+                carts
+            })
+        } else {
+            res.setHeader('Content-Type', 'application/json');
+            res.status(200).json({
+                message: 'Todo ok...',
+                carts
+            })
+        }
     }
 
     async addProductCart(cid, pid) {

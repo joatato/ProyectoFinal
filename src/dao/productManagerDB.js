@@ -9,22 +9,51 @@ export default class productManager {
     }
 
     async getProduct(req, res) {
-        let products;
+        let sort = req.query.sort
+        let limit = req.query.limit
 
+        //No entiendo que se hace con el page
+        let page = req.query.page
+        //No entiendo que se hace con el query
+        let query = req.query.query
+        let products;
+        let filtro = {}
+
+        //Anda
+        console.log(sort);
+        sort == 'asc' ? filtro = { title: 1 } : filtro = ''
+        sort == 'desc' ? filtro = { title: -1 } : filtro = filtro
+
+        console.log(filtro);
+        // No puedo agregarle el filtro ya que no funciona con el find()
         try {
-            products = await productModels.find()
+            products = await productModels.find().sort(filtro)
         } catch (error) {
             res.setHeader('Content-Type', 'application/json');
             return res.status(500).json({
                 mensaje: `Error al obtener products de la DB`
             })
         }
-        console.log(products);
-        
+        //console.log(products);
+
+        limit ? (products.length <= limit ? products.splice(limit, products.length) : false) : false
         res.setHeader('Content-Type', 'application/json');
         res.status(200).json({
             message: 'Todo ok...',
-            products
+
+
+            //Nuevo metodo de envio de productos, como si fuese un libro
+            // o una carta
+
+            //status: success / error,
+            payload: products,
+            /* totalPages:products.length,
+            prevPage: yaVeremos,
+            nextPage: yaVeremos,
+            hasPrevPage: yaVeremos,
+            hasNextPage: yaVeremos,
+            prevLink:yaVeremos,
+            nextLink:yaVeremos */
         })
 
     }
@@ -119,8 +148,10 @@ export default class productManager {
     } */
 
     async getProductById(id) {
-        let products = await this.getProduct()
-        let copiaProduct = {}
+        let products = await productModels.find({ _id: id })
+        products ? products : false
+        return products
+        /* let copiaProduct = {}
         for (const producto of products) {
             if (producto.id == id) {
                 copiaProduct = producto
@@ -128,11 +159,14 @@ export default class productManager {
                 return copiaProduct
             }
         }
-        return false
+        return false */
     }
 
+
+    //Debo hacerlo funcionar con la DB
     async updateProduct(id, key, value) {
-        let products = await this.getProduct()
+        let products = await productModels.find({ _id: id })
+
         let existencia = products.findIndex(pr => pr.id == id)
         if (existencia !== -1) {
             products[existencia][key] = value
@@ -140,6 +174,7 @@ export default class productManager {
         }
     }
 
+    //Debo hacerlo funcionar con la DB
     async deleteProduct(id) {
         let products = await this.getProduct()
         let quePaso = products.filter(pr => pr.id == id)
