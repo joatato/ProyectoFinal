@@ -1,0 +1,19 @@
+h1 {
+    color: #222;
+}
+
+ul {
+    margin-bottom: 40px;
+}
+
+li {
+    color: #333
+}
+
+a {
+    padding: 15px;
+    border: 1px solid #777;
+    border-radius: 5px;
+    background-color: #ccc;
+    color: #333
+}

@@ -52,14 +52,14 @@ router.get('/chat', async (req, res) => {
   });
 });
 
-router.get('/chat', async (req, res) => {
+router.get('/products', async (req, res) => {
   let paginaActual = 1;
   if (req.query.pagina) {
     paginaActual = req.query.pagina;
   }
 
-  // let usuarios=await usuariosModelo.find();
-  let products = await productModels.paginate({ title: { $sort: 1 } }, { page: paginaActual, limit: 30, sort: { title: 1, price: -1 } });
+  // let products=await productModels.find();
+  let products = await productModels.paginate({ category: { $in: ['comida'] } }, { page: paginaActual, limit: 2, sort: { title: 1, price: -1 } });
   console.log(products)
 
   let { totalPages, hasPrevPage, hasNextPage, prevPage, nextPage } = products;
@@ -67,6 +67,8 @@ router.get('/chat', async (req, res) => {
 
   res.setHeader('Content-Type', 'text/html');
   res.status(200).render('products', {
+    title: 'Products Paginados',
+    estilos: 'productsStyles.css',
     products: products.docs,
     totalPages, hasPrevPage, hasNextPage, prevPage, nextPage
   });

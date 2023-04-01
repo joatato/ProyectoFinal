@@ -6,6 +6,8 @@ import { Server } from 'socket.io';
 import productsRouter from './routes/products.router.js';
 import cartsRouter from './routes/carts.router.js';
 import viewsRouter from './routes/views.router.js';
+import __dirname from './utils/utils.js';
+import path from 'path';
 
 //import path from 'path'
 
@@ -27,8 +29,8 @@ app.engine('handlebars', engine({
   }
 }));
 app.set('view engine', 'handlebars');
-//app.set('views', path2.join(__dirname,'./views'));
-app.set('views', './src/views');
+app.set('views', path.join(__dirname, '../views'));
+// app.set('views', './src/views');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -41,19 +43,6 @@ app.use('/api/products', (req, res, next) => {
 
 app.use('/api/carts', cartsRouter);
 app.use('/', viewsRouter);
-
-
-// import { MongoClient } from "mongodb";
-// const username = encodeURIComponent("<tatotatoaguero>");
-// const password = encodeURIComponent("<Tatotato142857.>");
-// const cluster = "<clusterName>";
-// const authSource = "<authSource>";
-// const authMechanism = "<authMechanism>";
-
-// let uri =
-// `mongodb+srv://${username}:${password}@${cluster}/?authSource=${authSource}&authMechanism=${authMechanism}`;
-// const client = new MongoClient(uri);
-
 
 
 const env = async () => {

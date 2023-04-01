@@ -2,6 +2,8 @@
 
 <hr>
 <br>
+<p>Para ir al Home precione <a href="/">aquí</a>.</p>
+<br>
 <p>Para ir al CHAT precione <a href="/chat">aquí</a>.</p>
 <p>Para ir al Real Time Products precione <a href="/realTimeProducts">aquí</a>.</p>
 <br>
@@ -11,19 +13,48 @@
 <hr>
 
 <ul>
-    {{#each usuarios}}
-        <li>
-            {{this.title}} {{this.category}} - {{this.price}} ({{this.code}})
-        </li>
+    {{#each products}}
+    <li>
+        {{this.title}} {{this.category}} - ${{this.price}} ({{this.code}})
+    </li>
     {{/each}}
 </ul>
 
-<a href="/?pagina=1">Primer página</a>
+<a href="/products/?pagina=1">Primer página</a>
 {{#if hasPrevPage}}
-    <a href="/?pagina={{prevPage}}">pág.Anterior</a>
+<a href="/products/?pagina={{prevPage}}">pág.Anterior</a>
 {{/if}}
 {{#if hasNextPage}}
-    <a href="/?pagina={{nextPage}}">pág.Siguiente</a>
+<a href="/products/?pagina={{nextPage}}">pág.Siguiente</a>
 {{/if}}
-<a href="/?pagina={{totalPages}}">Última página</a>
+<a href="/products/?pagina={{totalPages}}">Última página</a>
 
+
+
+
+
+
+
+{{!-- Agrego de este modo los estilos, 
+    ya que me los saca cuando entra a un endpoint de Página --}}
+<style>
+    h1 {
+        color: #222;
+    }
+
+    ul {
+        margin-bottom: 40px;
+    }
+
+    li {
+        color: #333
+    }
+
+    a {
+        padding: 15px;
+        border: 1px solid #777;
+        border-radius: 5px;
+        background-color: #ccc;
+        color: #333
+    }
+</style>
