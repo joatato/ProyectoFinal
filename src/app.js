@@ -8,6 +8,7 @@ import cartsRouter from './routes/carts.router.js';
 import viewsRouter from './routes/views.router.js';
 import __dirname from './utils/utils.js';
 import path from 'path';
+import { escape } from 'querystring';
 
 //import path from 'path'
 
@@ -91,9 +92,8 @@ const env = async () => {
 env();
 
 const mensajes = [];
-const serverSockets = new Server(server);
 
-serverSockets.on('connection', (socket) => {
+io.on('connection', (socket) => {
   // console.log(socket.handshake);
   console.log(`Se han conectado, socket id ${socket.id}`)
 
@@ -117,11 +117,18 @@ serverSockets.on('connection', (socket) => {
     console.log(mensajes);
 
     // socket.broadcast.emit('nuevoMensaje',mensaje)
-    serverSockets.emit('nuevoMensaje', mensaje)
+    socket.emit('nuevoMensaje', mensaje)
 
   })
 
 
 }) // fin de server.on connection
+
+// Socket De horario (Su uso mas que nada es para ver cuando no funque el socket)
+setInterval(() => {
+  let pHorario = new Date().toLocaleTimeString()
+  // let pHorario = 2
+  io.emit('actualizarHorario',pHorario)
+}, 1000);
 
 server.on('error', (error) => console.log(error));

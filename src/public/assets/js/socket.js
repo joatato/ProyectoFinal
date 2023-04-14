@@ -1,6 +1,7 @@
 let productMessage = document.querySelector('#mensajeDeActualizacion');
 let divActualizador = document.getElementById('actualizador')
-let socket = io();
+let pHorario=document.getElementById('horario');
+let socket = io("http://localhost:8080");
 
 
 socket.on('editProduct', async (products) => {
@@ -23,6 +24,15 @@ socket.on('editProduct', async (products) => {
 })
 
 
+
+
+
+// HORARIO
+socket.on('actualizarHorario',(horario)=>{
+    console.log('Escuchando Desde el Horario pa');
+    
+    pHorario.innerHTML=horario;
+})
 
 // SOCKET para el chat
 Swal.fire({

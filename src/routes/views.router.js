@@ -75,4 +75,30 @@ router.get('/products', async (req, res) => {
 
 });
 
+
+router.get('/carts/:cid', async (req, res) => {
+  let cid = req.query.cid
+  let paginaActual = 1;
+  if (req.query.pagina) {
+    paginaActual = req.query.pagina;
+  }
+
+  // let products=await productModels.find();
+  let products = await productModels.paginate({ category: { $in: ['comida'] } }, { page: paginaActual, limit: 2, sort: { title: 1, price: -1 } });
+  console.log(products)
+
+  let { totalPages, hasPrevPage, hasNextPage, prevPage, nextPage } = products;
+
+
+  res.setHeader('Content-Type', 'text/html');
+  res.status(200).render('carts', {
+    title: 'Carritos',
+    estilos: 'productsStyles.css',
+    cid: cid,
+    products: products.docs,
+    totalPages, hasPrevPage, hasNextPage, prevPage, nextPage
+  });
+
+});
+
 export default router; 

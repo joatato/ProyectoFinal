@@ -4,8 +4,6 @@
 <br>
 <p>Para ir al Home precione <a href="/">aquí</a>.</p>
 <br>
-<p>Para ir al CHAT precione <a href="/chat">aquí</a>.</p>
-<p>Para ir al Real Time Products precione <a href="/realTimeProducts">aquí</a>.</p>
 <br>
 
 
@@ -15,8 +13,7 @@
 <ul>
     {{#each products}}
     <li>
-        {{this.title}} {{this.category}} - ${{this.price}} ({{this.code}}) <button onclick="addCart">Agregar al
-            Carrito</button>
+        {{this.title}} {{this.category}} - ${{this.price}} ({{this.code}}) <button onclick="moreProduct"> + </button> <input type="number"> <button onclick="lessProduct"> - </button>
     </li>
     {{/each}}
 </ul>
