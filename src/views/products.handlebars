@@ -15,8 +15,7 @@
 <ul>
     {{#each products}}
     <li>
-        {{this.title}} {{this.category}} - ${{this.price}} ({{this.code}}) <button onclick="addCart">Agregar al
-            Carrito</button>
+        {{this.title}} {{this.category}} - ${{this.price}} ({{this.code}})
     </li>
     {{/each}}
 </ul>
@@ -36,8 +35,8 @@
 
 
 
-{{!-- Agrego de este modo los estilos,
-ya que me los saca cuando entra a un endpoint de Página --}}
+{{!-- Agrego de este modo los estilos, 
+    ya que me los saca cuando entra a un endpoint de Página --}}
 <style>
     h1 {
         color: #222;

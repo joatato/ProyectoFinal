@@ -1,0 +1,7 @@
+Lista de tareas:
+    Solucionar la lectura del código: "nodemon"
+    Solucionar la lectura de la variable usuario (propiedad)
+
+    Solucionado
+
+    Dejar de utilizar el Swal y empezar a usar el nombre de la session actual para utilizar el chat
