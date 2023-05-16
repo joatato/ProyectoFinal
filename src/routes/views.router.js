@@ -33,7 +33,7 @@ router.get('/', auth, async (req, res) => {
     existenciaDeStock: stock,
     productos: products,
     allowProtoMethodsByDefault: true, // Opción para permitir el acceso a las propiedades del prototipo de forma segura
-    estilos: 'stylesHome.css',
+    estilos: 'stylesHome.css'                               ,
     nombreCompleto: req.session.usuario.nombre + ' ' + req.session.usuario.apellido,
     edad: req.session.usuario.edad,
     correo: req.session.usuario.email

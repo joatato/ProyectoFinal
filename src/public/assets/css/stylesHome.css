@@ -1,3 +1,14 @@
 body{
     background-color: aquamarine;
 }
+
+h1{
+    text-align: center;
+    font-style: italic;
+    color: burlywood;
+    font-size: 350%;
+}
+
+#divInfo{
+    text-align: right;
+}
