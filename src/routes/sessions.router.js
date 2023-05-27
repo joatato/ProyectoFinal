@@ -34,11 +34,20 @@ router.post('/login', async (req, res) => {
 
     if (!usuario) return res.sendStatus(401)
 
-    req.session.usuario = {
-        nombre: usuario.nombre,
-        apellido: usuario.apellido,
-        email,
-        edad: usuario.edad
+    // req.session.usuario = {
+    //     nombre: usuario.nombre,
+    //     apellido: usuario.apellido,
+    //     email,
+    //     edad: usuario.edad
+    // }
+
+    //Uso de Roles
+    let usuarioConRol={
+        nombre:usuario.nombre, 
+        apellido:usuario.apellido, 
+        email, 
+        edad:usuario.edad,
+        rol:usuario.nombre=='Joaquín'?'ADMIN':'USUARIO'
     }
 
     res.redirect('/');

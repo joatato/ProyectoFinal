@@ -8,15 +8,31 @@ import MongoStore from 'connect-mongo';
 import productsRouter from './routes/products.router.js';
 import { router as sessionsRouter } from './routes/sessions.router.js';
 import cartsRouter from './routes/carts.router.js';
-import viewsRouter from './routes/views.router.js';
+import ViewsRouter from './routes/views.router.js';
 import __dirname from './utils/utils.js';
 import path from 'path';
+import { config } from './config/config.js';
+
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
+
+const options ={
+  definition:{
+    openapi:'3.0.0',
+    info:{
+      title:"Pepe"
+    },
+
+  }
+}
+
+//app.use('/api-docs',swaggerUi.serve,swaggerUi)
 
 //import path from 'path'
 
 
-
-const PORT = 8080;
+// const viewsRouter = new ViewsRouter()
+const PORT = config.app.PORT;
 
 const app = express();
 const server = app.listen(PORT, () => {
@@ -47,23 +63,23 @@ app.use('/api/products', (req, res, next) => {
 
 // DEBO AVERIGUAR POR QUE EL PROFE UTILIZA EL "secret:'miPalabraSecreta'"
 app.use(session({
-  secret: 'miPalabraSecreta',
+  secret: config.app.SECRET,
   resave: true,
   saveUninitialized: true,
   store: MongoStore.create({
-    mongoUrl: 'mongodb+srv://joaquintatoaguero:Tatotato142857.@cluster0.ywbl7gx.mongodb.net/?retryWrites=true&w=majority&name=desafio-01',
+    mongoUrl: config.database.MONGOURL,
     ttl: 60
   })
 }));
 
 app.use('/api/sessions', sessionsRouter)
 app.use('/api/carts', cartsRouter);
-app.use('/', viewsRouter);
+app.use('/', ViewsRouter);
 
 
 const env = async () => {
   try {
-    await mongoose.connect('mongodb+srv://joaquintatoaguero:Tatotato142857.@cluster0.ywbl7gx.mongodb.net/?retryWrites=true&w=majority&name=desafio-01')
+    await mongoose.connect(config.database.MONGOURL)
     // await mongoose.connect("mongodb+srv://cluster0.cbslnee.mongodb.net/myFirstDatabase")
     //mongosh "mongodb+srv://cluster0.cbslnee.mongodb.net/myFirstDatabase" --apiVersion 1 --username tatotatoaguero
     // await mongoose.connect('mongodb+srv://coderhouse:coderhouse@cluster0.v8ivmdl.mongodb.net/?retryWrites=true&w=majority&dbName=base_clase9')
@@ -113,7 +129,10 @@ io.on('connection', (socket) => {
 setInterval(() => {
   let pHorario = new Date().toLocaleTimeString()
   // let pHorario = 2
-  io.emit('actualizarHorario',pHorario)
+  io.emit('actualizarHorario', pHorario)
 }, 1000);
 
 server.on('error', (error) => console.log(error));
+
+
+// console.log(`Esto es lo que leo ${config.database.MONGOURL}`);

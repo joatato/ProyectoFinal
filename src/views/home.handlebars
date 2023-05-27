@@ -1,37 +1,48 @@
-<h1>Bienvenido a {{title}}</h1>
-<div id="divInfo">
+<header>
+    <h1>Bienvenido a {{title}}</h1>
+    <div id="divInfo">
 
-    <h3>Nombre: {{nombreCompleto}}</h3>
-    <p>Edad: {{edad}}</p>
-    <p>Correo: {{correo}}</p>
-    <p>Horario</p>
+        <h3>Nombre: {{nombreCompleto}}</h3>
+        <p>Edad: {{edad}}</p>
+        <p>Correo: {{correo}}</p>
+        <p>Horario</p>
 
-</div>
-<div id="horario"></div>
-<hr>
-<br>
-<p>Para ir al CHAT precione <a href="/chat">aquí</a>.</p>
-<p>Para ir al Real Time Products precione <a href="/realTimeProducts">aquí</a>.</p>
-<p>Para ir a productos paginados precione <a href="/products">aquí</a>.</p>
-<p>Para ir a los carritos precione <a href="/carts">aquí</a>.</p>
-<a href="/api/sessions/logout">Logout</a>
-<br>
-<h2>Productos de nuestra empresa</h2>
+    </div>
+    <div id="horario"></div>
+    <hr>
+    <br>
+    <div>
+        <nav>
+            <p>Para ir al CHAT precione <a href="/chat">aquí</a>.</p>
+            <p>Para ir al Real Time Products precione <a href="/realTimeProducts">aquí</a>.</p>
+            <p>Para ir a productos paginados precione <a href="/products">aquí</a>.</p>
+            <p>Para ir a los carritos precione <a href="/carts">aquí</a>.</p>
+            <a href="/api/sessions/logout">Logout</a>
+        </nav>
+    </div>
+    <br>
+</header>
+<main>
+    <h2>Productos de nuestra empresa</h2>
 
-{{#if existenciaDeStock}}
-<ul>
-    {{#each productos}}
-    <li>
-        <b> {{this.title}}</b>
-        <br>
-        Precio: {{this.price}}
-        <br>
-        Descripción: {{this.description}}
-        <br>
-    </li>
-    {{/each}}
-</ul>
+    {{#if existenciaDeStock}}
+    <ul>
+        {{#each productos}}
+        <li>
+            <b> {{this.title}}</b>
+            <br>
+            Precio: {{this.price}}
+            <br>
+            Descripción: {{this.description}}
+            <br>
+        </li>
+        {{/each}}
+    </ul>
 
-{{else}}
-<h3>No hay stock </h3>
-{{/if}}
+    {{else}}
+    <h3>No hay stock </h3>
+    {{/if}}
+</main>
+<footer>
+    <p>Joaquín Agüero. Gmail: joaquintatoaguero@gmail.com. NroCelular: 264 453-4954</p>
+</footer>
