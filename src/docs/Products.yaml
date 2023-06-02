@@ -1,7 +1,20 @@
 paths:
-  /api/products:
+  /api/products/:
     get:
       summary: Obtiene todos los productos
       tags:
-        Products
-      
+        - Products
+      responses:
+        "200":
+          description: Los productos obtenidos OK desde la DB
+        "500":
+          description: Error interno del servidor
+    post:
+      summary: Graba producto
+      tags:
+        - Products
+      responses:
+        "201":
+          description: Producto creado
+        "500":
+          description: Error interno del servidor

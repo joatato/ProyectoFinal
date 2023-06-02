@@ -4,31 +4,19 @@ import { engine } from 'express-handlebars';
 import { Server } from 'socket.io';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
+import path from 'path';
+import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 
 import productsRouter from './routes/products.router.js';
 import { router as sessionsRouter } from './routes/sessions.router.js';
 import cartsRouter from './routes/carts.router.js';
 import ViewsRouter from './routes/views.router.js';
 import __dirname from './utils/utils.js';
-import path from 'path';
 import { config } from './config/config.js';
 
-import swaggerJSDoc from 'swagger-jsdoc';
-import swaggerUi from 'swagger-ui-express';
 
-const options ={
-  definition:{
-    openapi:'3.0.0',
-    info:{
-      title:"Pepe"
-    },
 
-  }
-}
-
-//app.use('/api-docs',swaggerUi.serve,swaggerUi)
-
-//import path from 'path'
 
 
 // const viewsRouter = new ViewsRouter()
@@ -38,6 +26,24 @@ const app = express();
 const server = app.listen(PORT, () => {
   console.log(`Server escuchando en puerto ${PORT}`);
 });
+
+const options = {
+  definition: {
+      openapi: '3.0.0',
+      info: {
+          title: 'API de abm Estufas San Juan',
+          version: '1.0.0',
+          description: 'Documentación de la API de ejemplo de abm usuarios y productos',
+      },
+  },
+  apis: ['./src/docs/*.yaml'], // Rutas de tus archivos de rutas a documentar
+};
+
+// Inicializar swagger-jsdoc
+const specs = swaggerJsdoc(options);
+
+// Middleware para servir la documentación Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 const io = new Server(server);
 
@@ -80,9 +86,6 @@ app.use('/', ViewsRouter);
 const env = async () => {
   try {
     await mongoose.connect(config.database.MONGOURL)
-    // await mongoose.connect("mongodb+srv://cluster0.cbslnee.mongodb.net/myFirstDatabase")
-    //mongosh "mongodb+srv://cluster0.cbslnee.mongodb.net/myFirstDatabase" --apiVersion 1 --username tatotatoaguero
-    // await mongoose.connect('mongodb+srv://coderhouse:coderhouse@cluster0.v8ivmdl.mongodb.net/?retryWrites=true&w=majority&dbName=base_clase9')
     console.log(`Conexión a servidor DB establecida...!!!`);
   } catch (error) {
     console.log(`Error al conectarse con el servidor de BD: ${error}`);

@@ -1,8 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
 import fs from 'fs';
 
-export default class productManager {
 
+export class CartsMemoryDao {
+}
+
+export class ProductsMemoryDao {
     constructor(archivo) {
         this.path = archivo
     }
@@ -65,3 +68,16 @@ export default class productManager {
     }
 }
 
+
+
+export class MessagesMemoryDao {
+}
+
+export class UsersMemoryDao {
+}
+
+export class TicketsMemoryDao {
+}
+
+export class TokensMemoryDao {
+}

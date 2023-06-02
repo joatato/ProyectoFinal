@@ -9,7 +9,10 @@ const productsEsquema = new Schema({
         required: true,
         unique: [true, `400 Bad Request. Ya existe en la base de datos un producto con ese nombre`]
     },
-    description: String,
+    description: {
+        type: String,
+        required: true
+    },
     code: {
         type: Number,
         required: true,
@@ -19,7 +22,7 @@ const productsEsquema = new Schema({
         type: Number,
         required: true,
     },
-    thumbnail: String,
+    thumbnail: [String],
     stock: {
         type: Number,
         required: true,
@@ -28,11 +31,13 @@ const productsEsquema = new Schema({
         type: String,
         required: true,
     },
-    status: Boolean
+    status: {
+        type: Boolean,
+        default: true
+    }
 });
 
 productsEsquema.plugin(mongoosePaginate);
 
 export const productModels = model(productsColeccion, productsEsquema)
 
- 
