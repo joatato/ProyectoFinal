@@ -7,11 +7,27 @@ dotenv.config({
 
 export const config={
     app:{
-        PORT:process.env.PORT||8080,
-        PERSISTENCIA:process.env.PERSISTENCIA,
-        SECRET:process.env.SECRET
+        port: process.env.PORT,
+        persistence: process.env.PERSISTENCE,
+        secretKey: process.env.SECRET_KEY,
+    },
+    admin:{
+        adminMail: process.env.ADMIN_MAIL,
+        adminPassword: process.env.ADMIN_PASSWORD,  
     },
     database:{
-        MONGOURL:process.env.MONGOURL,
+        mongoUrl: process.env.MONGO_URL,
+    },
+    mail:{
+        mailingUser: process.env.MAILING_USER,
+        mailingPassword: process.env.MAILING_PASSWORD,
+        mailingName: process.env.MAILING_NAME,
+        mailingService: process.env.MAILING_SERVICE,
+        mailingPort: process.env.MAILING_PORT,
+    },
+    github:{
+        githubClientId: process.env.GITHUB_CLIENT_ID,
+        githubClientSecret: process.env.GITHUB_CLIENT_SECRET,
+        githubCallbackUrl: process.env.GITHUB_CALLBACK_URL,
     }
 }

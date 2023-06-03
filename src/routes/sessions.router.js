@@ -1,66 +1,25 @@
 import { Router } from "express";
-import { usuarioModelo } from "../dao/models/usuario.modelo.js";
-import crypto from 'crypto';
+import { passportCall } from "../middlewares/sessions.middleware.js";
+import sessionsController from "../controllers/sessions.controller.js";
 
-export const router = Router();
+const router = Router();
 
-router.post('/registro', async (req, res) => {
+router.get("/current", passportCall("jwt"), sessionsController.getCurrent);
 
-    let { nombre, apellido, email, password, edad } = req.body;
+router.get("/github", passportCall("github"), sessionsController.github);
 
-    if (!email || !password) return res.sendStatus(400)
+router.get("/githubcallback", passportCall("github"), sessionsController.login);
 
-    let usuarioActual = await usuarioModelo.findOne({ email: email })
+router.post("/logup", passportCall("logup"), sessionsController.logup);
 
-    if (usuarioActual) return res.sendStatus(400);
+router.post("/login", passportCall("login"), sessionsController.login);
 
-    usuarioModelo.create({
-        nombre, apellido, email,
-        password: crypto.createHash('sha256', 'palabraSecreta').update(password).digest('base64'),
-        edad
-    })
+router.get("/logout", sessionsController.logout);
 
-    res.redirect('/login');
+router.post("/passwordresetinit", sessionsController.passwordResetInit);
 
-})
+router.post("/passwordresetend", sessionsController.passwordResetEnd);
 
-router.post('/login', async (req, res) => {
+router.post("/premium/:uid", passportCall("jwt"), sessionsController.toggleRole);
 
-    let { email, password } = req.body;
-
-    if (!email || !password) return res.sendStatus(400)
-
-    let usuario = await usuarioModelo.findOne({ email: email, password: crypto.createHash('sha256', 'palabraSecreta').update(password).digest('base64') })
-
-    if (!usuario) return res.sendStatus(401)
-
-    // req.session.usuario = {
-    //     nombre: usuario.nombre,
-    //     apellido: usuario.apellido,
-    //     email,
-    //     edad: usuario.edad
-    // }
-
-    //Uso de Roles
-    let usuarioConRol={
-        nombre:usuario.nombre, 
-        apellido:usuario.apellido, 
-        email, 
-        edad:usuario.edad,
-        rol:usuario.nombre=='Joaquín'?'ADMIN':'USUARIO'
-    }
-
-    res.redirect('/');
-
-
-})
-
-router.get('/logout', (req, res) => {
-    req.session.destroy((err) => {
-        if (err) {
-            res.sendStatus(500);
-        } else {
-            res.redirect('/login');
-        }
-    });
-})
+export default router;
