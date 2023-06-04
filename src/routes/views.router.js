@@ -1,280 +1,60 @@
-import { Router } from 'express';
-// DEBO CAMBIARLO A productManagerDB.js . Pero por el momento no me anda asi que lo dejamos así.
-import { productModels } from '../dao/models/productModels.js';
-// import { passportCall } from '../utils/utils.js'
-// import { MiRouter } from './layout/router.js'
-import session from 'express-session';
-
-
+import { Router } from "express";
+import productsViewController from "../controllers/productsView.controller.js";
+import cartsViewController from "../controllers/cartsView.controller.js";
+import messagesController from "../controllers/messages.controller.js";
+import { authorizeUser, passportCall } from "../middlewares/sessions.middleware.js";
 
 const router = Router();
-// const pm = new productManager();
 
-//Autorizacion
-//A todo esto lo debo de incluir en router.js
-const auth = (req, res, next) => {
-  if (!req.session.usuario) return res.redirect('/login')    //return res.sendStatus(401);
-  next();
-}
-
-const auth2 = (req, res, next) => {
-  if (req.session.usuario) return res.redirect('/')    //return res.sendStatus(401);
-  next();
-}
-
-// const autorizacion = (rol) => {
-//   return (req, res, next) => {
-//     console.log(req.user)
-
-//     if (req.user.rol == 'ADMIN') return next();
-//     if (req.user.rol != rol) return res.status(403).send('No tiene privilegios suficientes para acceder al recurso');
-//     next();
-//   }
-// }
-
-
-//RUTAS
-router.get('/', auth, async (req, res) => {
-
-  let stock = await productModels.find()
-  console.log(stock);
-  for (const stokk of stock) {
-    console.log(stokk.price);
-  }
-  let products = stock;
-  stock ? (stock = true) : (stock = false);
-
-  res.status(200).render('home', {
-    title: 'Estufas San Juan',
-    existenciaDeStock: stock,
-    productos: products,
-    allowProtoMethodsByDefault: true, // Opción para permitir el acceso a las propiedades del prototipo de forma segura
-    estilos: 'stylesHome.css',
-    nombreCompleto: req.session.usuario.nombre + ' ' + req.session.usuario.apellido,
-    edad: req.session.usuario.edad,
-    correo: req.session.usuario.email
-  });
+router.get("/logup", (req, res) => {
+  if (req.cookies.idToken) return res.redirect("/products");
+  res.setHeader("Content-Type", "text/html");
+  res.status(200).render("logup", { styles: "logup.css" });
 });
 
-router.get('/realtimeproducts', async (req, res) => {
-  let stock = await productModels.find()
-  let products = stock;
-  stock ? (stock = true) : (stock = false);
-
-  res.status(200).render('realTimeProducts', {
-    title: 'Estufas San Juan',
-    existenciaDeStock: stock,
-    productos: products,
-    estilos: 'stylesReal.css'
-  });
+router.get("/login", (req, res) => {
+  if (req.cookies.idToken) return res.redirect("/products");
+  res.setHeader("Content-Type", "text/html");
+  res.status(200).render("login", { styles: "login.css" });
 });
 
-
-router.get('/chat', async (req, res) => {
-  let stock = await productModels.find()
-  let products = stock;
-  stock ? (stock = true) : (stock = false);
-
-  res.status(200).render('chat', {
-    title: 'Chat',
-    estilos: 'styles.css'
-  });
-});
-
-router.get('/products', async (req, res) => {
-  let paginaActual = 1;
-  if (req.query.pagina) {
-    paginaActual = req.query.pagina;
-  }
-
-  // let products=await productModels.find();
-  let products = await productModels.paginate({ category: { $in: ['comida'] } }, { page: paginaActual, limit: 2, sort: { title: 1, price: -1 } });
-  console.log(products)
-
-  let { totalPages, hasPrevPage, hasNextPage, prevPage, nextPage } = products;
-
-
-  res.setHeader('Content-Type', 'text/html');
-  res.status(200).render('products', {
-    title: 'Products Paginados',
-    estilos: 'productsStyles.css',
-    products: products.docs,
-    totalPages, hasPrevPage, hasNextPage, prevPage, nextPage
-  });
-});
-
-router.get('/carts/:cid', async (req, res) => {
-  let cid = req.query.cid
-  let paginaActual = 1;
-  if (req.query.pagina) {
-    paginaActual = req.query.pagina;
-  }
-
-  // let products=await productModels.find();
-  let products = await productModels.paginate({ category: { $in: ['comida'] } }, { page: paginaActual, limit: 2, sort: { title: 1, price: -1 } });
-  console.log(products)
-
-  let { totalPages, hasPrevPage, hasNextPage, prevPage, nextPage } = products;
-
-
-  res.setHeader('Content-Type', 'text/html');
-  res.status(200).render('carts', {
-    title: 'Carritos',
-    estilos: 'productsStyles.css',
-    cid: cid,
-    products: products.docs,
-    totalPages, hasPrevPage, hasNextPage, prevPage, nextPage
-  });
-
-});
-
-router.get('/registro', auth2, (req, res) => {
-
-  res.setHeader('Content-Type', 'text/html');
-  res.status(200).render('registro')
+router.get("/forgotPassword", (req, res) => {
+  if (req.cookies.idToken) return res.redirect("/products");
+  res.setHeader("Content-Type", "text/html");
+  res.status(200).render("forgotPassword", { styles: "forgotPassword.css" });
 })
 
-router.get('/login', auth2, (req, res) => {
-
-  res.setHeader('Content-Type', 'text/html');
-  res.status(200).render('login')
+router.get("/passwordreset/:email/:token", (req, res) => {
+  if (req.cookies.idToken) return res.redirect("/products");
+  let { email, token } = req.params;
+  res.setHeader("Content-Type", "text/html");
+  res.status(200).render("passwordReset", { email, token, styles: "passwordReset.css" });
 })
 
-router.get('/logout', (req, res) => {
-  req.session.destroy((error) => {
-    if (error) {
-      return res.sendStatus(500);
-    } else {
-      res.send('Logout OK...!!!')
-    }
-  })
-})
+router.get("/products", passportCall("jwt"), authorizeUser(["user", "premium", "admin"]), async (req, res) => {
+  let products = await productsViewController.getProducts(req.query);
+  let user = req.user;
+  res.setHeader("Content-Type", "text/html");
+  res.render("products", { products, user, styles: "products.css" });
+});
 
-// export default class ViewsRouter extends MiRouter {
-//   init() {
+router.get("/carts/:cid", passportCall("jwt"), authorizeUser(["user", "premium", "admin"]), async (req, res) => {
+  let cart = await cartsViewController.getCart(req.params.cid);
+  res.setHeader("Content-Type", "text/html");
+  res.render("cart", { cart, styles: "cart.css" });
+});
 
-//     this.get('/datos', ['ADMIN'], (req, res) => {
+router.get("/realtimeproducts", passportCall("jwt"), authorizeUser(["premium", "admin"]), async (req, res) => {
+  let products = await productsViewController.getProducts(req.query);
+  res.setHeader("Content-Type", "text/html");
+  res.render("realTimeProducts", { products, styles: "realTimeProducts.css" });
+});
 
-//       res.send(`Datos actualizados... hora actual: ${new Date().toUTCString()}`)
-//     })
+router.get("/chat", passportCall("jwt"), authorizeUser(["user", "premium", "admin"]), async (req, res) => {
+  let user = req.user;
+  let messages = await messagesController.getMessages();
+  res.setHeader("Content-Type", "text/html");
+  res.render("chat", { user, messages, styles: "chat.css" });
+});
 
-//     this.get('/', /* auth, */['USUARIO'], async (req, res) => {
-
-//       let stock = await productModels.find()
-//       console.log(stock);
-//       for (const stokk of stock) {
-//         console.log(stokk.price);
-//       }
-//       let products = stock;
-//       stock ? (stock = true) : (stock = false);
-
-//       res.status(200).render('home', {
-//         title: 'Estufas San Juan',
-//         existenciaDeStock: stock,
-//         productos: products,
-//         allowProtoMethodsByDefault: true, // Opción para permitir el acceso a las propiedades del prototipo de forma segura
-//         estilos: 'stylesHome.css',
-//         nombreCompleto: req.session.usuario.nombre + ' ' + req.session.usuario.apellido,
-//         edad: req.session.usuario.edad,
-//         correo: req.session.usuario.email
-//       });
-//     });
-
-//     this.get('/realtimeproducts', async (req, res) => {
-//       let stock = await productModels.find()
-//       let products = stock;
-//       stock ? (stock = true) : (stock = false);
-
-//       res.status(200).render('realTimeProducts', {
-//         title: 'Estufas San Juan',
-//         existenciaDeStock: stock,
-//         productos: products,
-//         estilos: 'stylesReal.css'
-//       });
-//     });
-
-
-//     this.get('/chat', async (req, res) => {
-//       let stock = await productModels.find()
-//       let products = stock;
-//       stock ? (stock = true) : (stock = false);
-
-//       res.status(200).render('chat', {
-//         title: 'Chat',
-//         estilos: 'styles.css'
-//       });
-//     });
-
-//     this.get('/products', async (req, res) => {
-//       let paginaActual = 1;
-//       if (req.query.pagina) {
-//         paginaActual = req.query.pagina;
-//       }
-
-//       // let products=await productModels.find();
-//       let products = await productModels.paginate({ category: { $in: ['comida'] } }, { page: paginaActual, limit: 2, sort: { title: 1, price: -1 } });
-//       console.log(products)
-
-//       let { totalPages, hasPrevPage, hasNextPage, prevPage, nextPage } = products;
-
-
-//       res.setHeader('Content-Type', 'text/html');
-//       res.status(200).render('products', {
-//         title: 'Products Paginados',
-//         estilos: 'productsStyles.css',
-//         products: products.docs,
-//         totalPages, hasPrevPage, hasNextPage, prevPage, nextPage
-//       });
-//     });
-
-//     this.get('/carts/:cid', async (req, res) => {
-//       let cid = req.query.cid
-//       let paginaActual = 1;
-//       if (req.query.pagina) {
-//         paginaActual = req.query.pagina;
-//       }
-
-//       // let products=await productModels.find();
-//       let products = await productModels.paginate({ category: { $in: ['comida'] } }, { page: paginaActual, limit: 2, sort: { title: 1, price: -1 } });
-//       console.log(products)
-
-//       let { totalPages, hasPrevPage, hasNextPage, prevPage, nextPage } = products;
-
-
-//       res.setHeader('Content-Type', 'text/html');
-//       res.status(200).render('carts', {
-//         title: 'Carritos',
-//         estilos: 'productsStyles.css',
-//         cid: cid,
-//         products: products.docs,
-//         totalPages, hasPrevPage, hasNextPage, prevPage, nextPage
-//       });
-
-//     });
-
-//     this.get('/registro', /* auth2, */ (req, res) => {
-
-//       res.setHeader('Content-Type', 'text/html');
-//       res.status(200).render('registro')
-//     })
-
-//     this.get('/login', /* auth2, */ (req, res) => {
-
-//       res.setHeader('Content-Type', 'text/html');
-//       res.status(200).render('login')
-//     })
-
-//     this.get('/logout', (req, res) => {
-//       req.session.destroy((error) => {
-//         if (error) {
-//           return res.sendStatus(500);
-//         } else {
-//           res.send('Logout OK...!!!')
-//         }
-//       })
-//     })
-//   }
-// }
-
-
-export default router; 
+export default router;

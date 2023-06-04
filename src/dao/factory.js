@@ -1,5 +1,5 @@
 import { config } from "../config/config.js";
-import { DB } from "../utils/utils.js";
+import { DB } from "../utils/connectDB.js";
 
 export let cartsService;
 export let productsService;
@@ -22,7 +22,8 @@ switch (config.persistence) {
     let {
       CartsMongoService,
       ProductsMongoService,
-      MessagesMongoService, UsersMongoService,
+      MessagesMongoService, 
+      UsersMongoService,
       TicketsMongoService,
       TokensMongoService
     } = await import("../services/mongo.service.js");

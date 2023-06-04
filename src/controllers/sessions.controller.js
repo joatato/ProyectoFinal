@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { config } from "../config/config.js";
 import { usersService, tokensService } from "../dao/factory.js";
-import { createFakePass, createHash, isValidPassword } from "../utils/utils.js";
+import { createFakePass, createHash, isValidPassword } from "../utils/fakerProducts.js";
 import mailer from "../utils/mailer.utils.js";
 import { BadRequestError, ForbiddenError, NotFoundError, ServerError, instanceOfCustomError } from "../utils/errors.utils.js";
 

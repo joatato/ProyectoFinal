@@ -7,20 +7,21 @@ import MongoStore from 'connect-mongo';
 import path from 'path';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
+import cookieParser from 'cookie-parser'
 
 import productsRouter from './routes/products.router.js';
-import { router as sessionsRouter } from './routes/sessions.router.js';
 import cartsRouter from './routes/carts.router.js';
-import ViewsRouter from './routes/views.router.js';
-import __dirname from './utils/utils.js';
+import viewsRouter from './routes/views.router.js';
+import {__dirname} from './utils/utils.js';
 import { config } from './config/config.js';
 
 
-
-
-
-// const viewsRouter = new ViewsRouter()
-const PORT = config.app.PORT;
+import { initializePassport } from "./config/passport.config.js";
+import { errorMiddleware } from "./middlewares/error.middleware.js";
+import { addLogger } from "./middlewares/logger.middleware.js";
+import sessionsRouter from "./routes/sessions.router.js";
+console.log(`${path.join(__dirname,'../.env')}`);
+const PORT = config.app.port;
 
 const app = express();
 const server = app.listen(PORT, () => {
@@ -57,6 +58,14 @@ app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, '../views'));
 // app.set('views', './src/views');
 
+app.use(cookieParser());
+initializePassport();
+app.use(passport.initialize());
+
+app.use(compression());
+
+app.use(addLogger);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./src/public/assets'));
@@ -66,34 +75,23 @@ app.use('/api/products', (req, res, next) => {
   next();
 }, productsRouter);
 
-
-// DEBO AVERIGUAR POR QUE EL PROFE UTILIZA EL "secret:'miPalabraSecreta'"
-app.use(session({
-  secret: config.app.SECRET,
-  resave: true,
-  saveUninitialized: true,
-  store: MongoStore.create({
-    mongoUrl: config.database.MONGOURL,
-    ttl: 60
-  })
-}));
+// app.use(session({
+//   secret: config.app.SECRET,
+//   resave: true,
+//   saveUninitialized: true,
+//   store: MongoStore.create({
+//     mongoUrl: config.database.mongoUrl,
+//     ttl: 60
+//   })
+// }));
 
 app.use('/api/sessions', sessionsRouter)
 app.use('/api/carts', cartsRouter);
-app.use('/', ViewsRouter);
+app.use('/', viewsRouter);
 
-
-const env = async () => {
-  try {
-    await mongoose.connect(config.database.MONGOURL)
-    console.log(`Conexión a servidor DB establecida...!!!`);
-  } catch (error) {
-    console.log(`Error al conectarse con el servidor de BD: ${error}`);
-  }
-}
-
-
-env();
+app.use("*", (req, res) => {
+  return req.user ? res.redirect("/products") : res.redirect("/login");
+});
 
 const mensajes = [];
 
