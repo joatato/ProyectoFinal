@@ -4,6 +4,11 @@ import mongoosePaginate from 'mongoose-paginate-v2';
 const productsColeccion = 'products';
 
 const productsEsquema = new Schema({
+    owner: {
+        type: String,
+        default: "admin",
+        required: true,
+    },
     title: {
         type: String,
         required: true,
@@ -19,7 +24,14 @@ const productsEsquema = new Schema({
         type: Number,
         required: true,
     },
+<<<<<<< Updated upstream:src/dao/models/productModels.js
     thumbnail: String,
+=======
+    thumbnail: {
+        type: String,
+        imageDescription: [String]
+    },
+>>>>>>> Stashed changes:src/dao/models/products.models.js
     stock: {
         type: Number,
         required: true,
@@ -33,6 +45,6 @@ const productsEsquema = new Schema({
 
 productsEsquema.plugin(mongoosePaginate);
 
-export const productModels = model(productsColeccion, productsEsquema)
+export const productsModel = model(productsColeccion, productsEsquema)
 
  

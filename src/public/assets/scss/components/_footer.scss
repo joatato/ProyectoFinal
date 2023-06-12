@@ -1,0 +1,9 @@
+footer {
+    color: map-get($colors, color-black);
+    background-color: black;
+    padding: 2rem;
+}
+
+.footertext {
+    color: map-get($colors , color-yellow);
+}

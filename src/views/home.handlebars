@@ -1,48 +1,167 @@
-<header>
-    <h1>Bienvenido a {{title}}</h1>
-    <div id="divInfo">
-
-        <h3>Nombre: {{nombreCompleto}}</h3>
-        <p>Edad: {{edad}}</p>
-        <p>Correo: {{correo}}</p>
-        <p>Horario</p>
-
-    </div>
-    <div id="horario"></div>
-    <hr>
-    <br>
-    <div>
-        <nav>
-            <p>Para ir al CHAT precione <a href="/chat">aquí</a>.</p>
-            <p>Para ir al Real Time Products precione <a href="/realTimeProducts">aquí</a>.</p>
-            <p>Para ir a productos paginados precione <a href="/products">aquí</a>.</p>
-            <p>Para ir a los carritos precione <a href="/carts">aquí</a>.</p>
-            <a href="/api/sessions/logout">Logout</a>
+<header class="header">
+    <div class="conteiner">
+        <nav class="navbar">
+            <div class="row">
+                <div><img class="navbar__logo" src="./../assets/img/icono/fuego.png" alt="LOGO"></div>
+                <!-- Seccion de paginas -->
+            </div>
+            <div class="row">
+                <ul class="navbar__links">
+                    <li><a href="index.html">
+                            INICIO
+                        </a></li>
+                    <li><a href="pages/productos.html">
+                            PRODUCTOS
+                        </a></li>
+                    <li><a href="pages/ubicacion.html">
+                            UBICACIÓN
+                        </a></li>
+                    </a>
+                    <li><a href="pages/contacto.html">
+                            CONTACTO
+                        </a></li>
+                    </a></li>
+                    <li><a href="pages/soporte.html">
+                            SOPORTE
+                        </a></li>
+                    </a></li>
+                </ul>
+            </div>
+            {{!-- <div class="row">
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div> --}}
         </nav>
     </div>
-    <br>
 </header>
 <main>
-    <h2>Productos de nuestra empresa</h2>
+    <div>
+        <h1>Bienvenido a {{title}}</h1>
+        <div id="divInfo">
 
-    {{#if existenciaDeStock}}
-    <ul>
-        {{#each productos}}
-        <li>
-            <b> {{this.title}}</b>
-            <br>
-            Precio: {{this.price}}
-            <br>
-            Descripción: {{this.description}}
-            <br>
-        </li>
-        {{/each}}
-    </ul>
+            <h3>Nombre: {{nombreCompleto}}</h3>
+            <p>Edad: {{edad}}</p>
+            <p>Correo: {{correo}}</p>
+            <p>Horario</p>
 
-    {{else}}
-    <h3>No hay stock </h3>
-    {{/if}}
+        </div>
+        <div id="horario"></div>
+        <hr>
+        <br>
+        <div>
+            <nav>
+                <p>Para ir al CHAT precione <a href="/chat">aquí</a>.</p>
+                <p>Para ir al Real Time Products precione <a href="/realTimeProducts">aquí</a>.</p>
+                <p>Para ir a productos paginados precione <a href="/products">aquí</a>.</p>
+                <p>Para ir a los carritos precione <a href="/carts">aquí</a>.</p>
+                <a href="/api/sessions/logout">Logout</a>
+            </nav>
+        </div>
+    </div>
+    <section class="presentacion">
+        <div class="conteiner">
+            <h1>ESTUFAS SAN JUAN</h1>
+            <p>Inovacion en productos para calefaccionar el hogar. Nueva calidad de chapas para el uso de estas
+                estufas. Inovacion en productos para calefaccionar el hogar. Nueva calidad de chapas para el uso de
+                estas estufas. Inovacion en productos para calefaccionar el hogar. Nueva calidad de chapas para el
+                uso de estas estufas. Inovacion en productos para calefaccionar el hogar. Nueva calidad de chapas
+                para el uso de estas estufas. Inovacion en productos para calefaccionar el hogar. Nueva calidad de
+                chapas para el uso de estas estufas.</p>
+        </div>
+    </section>
+    <!-- Productos -->
+    <section class="productos">
+        <div class="conteiner">
+            {{#if existenciaDeStock}}
+            <div class="row">
+                {{!-- <div class="col">
+                    <div class="contexto__producto">
+                        <img class="imagen__producto" src="img/Calafate.jpg" alt="Estufa Calafate-800-600">
+                        <h2 class="product__title">Calafate</h2>
+                        <p class="product__description">
+                            De lo mejor en Tromen
+                        </p>
+                        <button class="btn btn-warning">
+                            Mas información
+                        </button>
+                    </div>
+                </div> --}}
+                {{#each products.payload}}
+                <div class="col">
+                    <div class="contexto__producto">
+                        <img class="imagen__producto" src="img/"+{{this.thumbnail}} alt={{this.thumbnail.imageDescription}}>
+                        <h2 class="product__title">{{this.title}}</h2>
+                        <p class="product__price">
+                            Precio: {{this.price}}
+                        </p>
+                        <p class="product__description">
+                            Descripción: {{this.description}}
+                        </p>
+                        {{#if this.status}}
+                        <p>Disponible</p>
+                        <form class="addToCartForm" id="{{this._id}}" data-owner="{{this.owner}}">
+                            <label>Cantidad:
+                                <input type="text" name="quantity" class="quantity" />
+                            </label>
+                            <input type="submit" value="Agregar al carrito" />
+                        </form>
+                        {{else}}
+                        <p>No disponible</p>
+                        {{/if}}
+                        <button class="btn btn-warning">
+                            Mas información
+                        </button>
+                    </div>
+                </div>
+                {{/each}}
+                {{!-- {{#each productos}}
+                <div class="col">
+                    <div class="contexto__producto">
+                        <img class="imagen__producto" src="img/Salamandra.jpg" alt="Salamandra-9000-kca-tromen-chalten">
+                        <h2 class="product__title">{{this.title}}</h2>
+                        <p class="product__price">
+                            Precio: {{this.price}}
+                        </p>
+                        <p class="product__description">
+                            Descripción: {{this.description}}
+                        </p>
+                        <button class="btn btn-warning">
+                            Mas información
+                        </button>
+                    </div>
+                </div>
+                {{/each}} --}}
+            </div>
+            {{else}}
+            <h3>No hay stock </h3>
+            {{/if}}
+        </div>
+    </section>
+    {{!-- <section class="videos">
+        <div class="row" id="videocopado">
+            <iframe class="video" width="560" height="315" src="https://www.youtube.com/embed/TgJkjJLTe08"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen alt="Funcionamiento de las estufas"></iframe>
+        </div>
+        <div class="row">
+            <p class="texto">Las estufas son el producto ideal para combatir el frio. Su funcionamiento se basa en
+                combustionar la madera, para así generar con la mayor eficiencia el calor que ese tronco podria
+                producir.
+            </p>
+        </div>
+    </section> --}}
+
+    
+    <svg class="svg2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <path fill="#e0c9a6" fill-opacity="1"
+            d="M0,32L40,42.7C80,53,160,75,240,80C320,85,400,75,480,96C560,117,640,171,720,197.3C800,224,880,224,960,213.3C1040,203,1120,181,1200,144C1280,107,1360,53,1400,26.7L1440,0L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z">
+        </path>
+    </svg>
 </main>
 <footer>
-    <p>Joaquín Agüero. Gmail: joaquintatoaguero@gmail.com. NroCelular: 264 453-4954</p>
+    <p class="footertext">+54 9 264-453-4954
+        Av. Abraham Tapia 2777 (sur)</p>
 </footer>

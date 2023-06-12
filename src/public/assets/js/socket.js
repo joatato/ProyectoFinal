@@ -1,8 +1,10 @@
+<<<<<<< Updated upstream
 import session = require("express-session");
 
+=======
+>>>>>>> Stashed changes
 let productMessage = document.querySelector('#mensajeDeActualizacion');
 let divActualizador = document.getElementById('actualizador')
-let pHorario = document.getElementById('horario');
 let socket = io();
 
 
@@ -24,6 +26,7 @@ socket.on('editProduct', async (products) => {
     }
     productMessage.innerHTML = `<p> Se ha editado la lista de productos </p>`
 })
+<<<<<<< Updated upstream
 
 // HORARIO
 socket.on('actualizarHorario', (horario) => {
@@ -154,3 +157,5 @@ socket.on('nuevoHeroe', (objeto) => {
     divMensajes.innerHTML += `<br>Se ha creado el heroe<strong> ${objeto.heroe.nombre}</strong>`
 })
 
+=======
+>>>>>>> Stashed changes

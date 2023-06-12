@@ -1,0 +1,15 @@
+h1 {
+  color: red;
+}
+
+h2 {
+  color: blue;
+}
+
+body {
+  background-image: url('../images/tunel.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+
