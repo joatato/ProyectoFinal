@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
 import { config } from "../config/config.js";
 import { usersService, tokensService } from "../dao/factory.js";
-import { createFakePass, createHash, isValidPassword } from "../utils/fakerProducts.js";
+import { createFakePass } from "../utils/fakerProducts.js";
+import {createHash, isValidPassword} from "../utils/utils.js"
 import mailer from "../utils/mailer.utils.js";
 import { BadRequestError, ForbiddenError, NotFoundError, ServerError, instanceOfCustomError } from "../utils/errors.utils.js";
 
@@ -28,9 +29,9 @@ class SessionsController {
   }
 
   async login(req, res) {
-    let token = jwt.sign({ user: req.user }, config.secretKey, { expiresIn: "24h" });
+    let token = jwt.sign({ user: req.user }, config.app.secretKey, { expiresIn: "24h" });
     let cookieOptions = { maxAge: 1000 * 60 * 60, httpOnly: true };
-    res.cookie("idToken", token, cookieOptions).redirect("/products");
+    res.cookie("idToken", token, cookieOptions).redirect("/home");
   }
 
   async logout(req, res) {

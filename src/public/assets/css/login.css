@@ -1,0 +1,53 @@
+h1 {
+  color: brown;
+}
+
+div {
+  text-align: center;
+  font-size: 3rem;
+
+}
+
+body {
+  background-color: white;
+  background-image: radial-gradient(rgb(204, 138, 138) 5px, transparent 5px);
+  background-position: 5 10, 10px 10px;
+  background-size: 25px 20px;
+  animation:
+    pulseDots 0.6s ease-in-out infinite,
+    moveDots 5s linear infinite
+}
+
+@keyframes pulseDots {
+  0% {
+    background-image: radial-gradient(rgb(200, 140, 138) 5px, transparent 5px);
+  }
+
+  20% {
+    background-image: radial-gradient(rgb(180, 130, 138) 5.5px, transparent 5px);
+  }
+  40% {
+    background-image: radial-gradient(rgb(160, 120, 138) 6px, transparent 5px);
+  }
+
+  60% {
+    background-image: radial-gradient(rgb(140, 110, 138) 6.5px, transparent 5px);
+  }
+  80% {
+    background-image: radial-gradient(rgb(160, 120, 138) 6px, transparent 5px);
+  }
+
+  100% {
+    background-image: radial-gradient(rgb(180, 130, 138) 5.5px, transparent 5px);
+  }
+}
+
+@keyframes moveDots {
+  0% {
+    background-position: 0 0, 1px 1px;
+  }
+
+  100% {
+    background-position: 100px 100px, 101px 101px;
+  }
+}

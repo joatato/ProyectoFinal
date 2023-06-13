@@ -1,9 +1,12 @@
-import dotenv from "dotenv"
+import dotenv from "dotenv";
+
+const environments = ["development", "staging", "production"];
+export const currentEnvironment = environments[0];
 
 dotenv.config({
-    override: true,
-    path:  './src/.env',
-})
+  override: true,
+  path: `./src/.env.${currentEnvironment}`,
+});
 
 export const config = {
     app: {

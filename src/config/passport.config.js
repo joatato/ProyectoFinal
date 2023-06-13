@@ -1,12 +1,13 @@
 import passport from 'passport';
 import local from 'passport-local';
 import github from 'passport-github2';
-import { usuarioModelo } from "../dao/models/usuario.modelo.js";
-import { creaHash, esClaveValida } from "../utils/utils.js";
+import { usersModel } from "../dao/models/users.models.js";
+import { createHash, isValidPassword } from "../utils/utils.js";
 import passportJWT from 'passport-jwt';
+import { config } from './config.js';
 
 
-const extraerToken = (req) => {
+const extractToken = (req) => {
     let token = null;
 
     if (req.headers.authorization) {
@@ -33,12 +34,12 @@ const extraerToken = (req) => {
 }
 
 
-export const inicializaEstrategias = () => {
+export const initializePassport = () => {
 
     passport.use('jwt', new passportJWT.Strategy(
         {
-            jwtFromRequest: passportJWT.ExtractJwt.fromExtractors([extraerToken]),
-            secretOrKey: 'miPalabraSecreta'
+            jwtFromRequest: passportJWT.ExtractJwt.fromExtractors([extractToken]),
+            secretOrKey: config.app.secretKey
         },
         (contenidoToken, done) => {
             try {
@@ -65,7 +66,7 @@ export const inicializaEstrategias = () => {
             let nombre = profile._json.name;
             let email = profile._json.email;
 
-            let usuario = await usuarioModelo.findOne({ email: email });
+            let usuario = await usersModel.findOne({ email: email });
             if (!usuario) {
                 let usuarioNuevo = {
                     nombre,
@@ -73,14 +74,14 @@ export const inicializaEstrategias = () => {
                     github: true,
                     githubProfile: profile._json
                 }
-                usuario = await usuarioModelo.create(usuarioNuevo);
+                usuario = await usersModel.create(usuarioNuevo);
             } else {
                 let actualizaUsuario = {
                     github: true,
                     githubProfile: profile._json
                 }
 
-                await usuarioModelo.updateOne({ email: email }, actualizaUsuario);
+                await usersModel.updateOne({ email: email }, actualizaUsuario);
             }
 
             done(null, usuario)
@@ -93,21 +94,21 @@ export const inicializaEstrategias = () => {
     }))
 
 
-    passport.use('registro', new local.Strategy({ usernameField: 'email', passReqToCallback: true }, async (req, username, password, done) => {
+    passport.use('logup', new local.Strategy({ usernameField: 'email', passReqToCallback: true }, async (req, username, password, done) => {
 
         try {
             let { nombre, apellido, edad } = req.body;
 
             if (!username || !password) return done(null, false)
 
-            let usuarioActual = await usuarioModelo.findOne({ email: username })
+            let usuarioActual = await usersModel.findOne({ email: username })
 
             if (usuarioActual) return done(null, false);
 
-            let usuario = await usuarioModelo.create({
+            let usuario = await usersModel.create({
                 nombre, apellido,
                 email: username,
-                password: creaHash(password),
+                password: createHash(password),
                 edad
             })
 
@@ -116,7 +117,6 @@ export const inicializaEstrategias = () => {
         } catch (error) {
             done(error);
         }
-
 
     }))
 
@@ -127,11 +127,11 @@ export const inicializaEstrategias = () => {
 
             if (!username || !password) return done(null, false)
 
-            // let usuario=await usuarioModelo.findOne({email:email, password:crypto.createHash('sha256','palabraSecreta').update(password).digest('base64')})
-            let usuario = await usuarioModelo.findOne({ email: username })
+            // let usuario=await usersModel.findOne({email:email, password:crypto.createHash('sha256','palabraSecreta').update(password).digest('base64')})
+            let usuario = await usersModel.findOne({ email: username })
 
             if (!usuario) return done(null, false);
-            if (!esClaveValida(password, usuario)) return done(null, false);
+            if (!isValidPassword(password, usuario)) return done(null, false);
 
             return done(null, usuario);
 
@@ -147,12 +147,9 @@ export const inicializaEstrategias = () => {
     });
 
     passport.deserializeUser(async (id, done) => {
-        let usuario = await usuarioModelo.findOne({ _id: id });
+        let usuario = await usersModel.findOne({ _id: id });
         done(null, usuario);
     });
 
 } // fin inicalizaEstrategias
-
-
-
 

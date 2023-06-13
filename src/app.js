@@ -4,24 +4,26 @@ import { engine } from 'express-handlebars';
 import { Server } from 'socket.io';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
+
 import path from 'path';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import cookieParser from 'cookie-parser'
+
 
 import productsRouter from './routes/products.router.js';
 import cartsRouter from './routes/carts.router.js';
 import viewsRouter from './routes/views.router.js';
 import {__dirname} from './utils/utils.js';
 import { config } from './config/config.js';
-
-
 import { initializePassport } from "./config/passport.config.js";
 import { errorMiddleware } from "./middlewares/error.middleware.js";
 import { addLogger } from "./middlewares/logger.middleware.js";
 import sessionsRouter from "./routes/sessions.router.js";
+
 console.log(`${path.join(__dirname,'../.env')}`);
 const PORT = config.app.port;
+
 
 const app = express();
 const server = app.listen(PORT, () => {
@@ -68,7 +70,7 @@ app.use(addLogger);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('./src/public/assets'));
+app.use(express.static(path.join(__dirname, "../public")));
 
 app.use('/api/products', (req, res, next) => {
   req.serverSocket = io;

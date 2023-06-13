@@ -8,7 +8,7 @@ export let usersService;
 export let ticketsService;
 export let tokensService;
 
-switch (config.persistence) {
+switch (config.app.persistence) {
   case "mongo":
     DB.connectDB();
     let {

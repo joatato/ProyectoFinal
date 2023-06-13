@@ -1,10 +1,10 @@
-import { cartsModel } from "../models/carts.model.js";
-import { productsModel } from "../models/products.model.js";
-import { messagesModel } from "../models/messages.model.js";
-import { usersModel } from "../models/users.model.js";
-import { ticketsModel } from "../models/tickets.model.js";
+import { cartsModel } from "./models/carts.models.js";
+import { productsModel } from "./models/products.models.js";
+import { messagesModel } from "./models/messages.models.js";
+import { usersModel } from "./models/users.models.js";
+import { ticketsModel } from "./models/tickets.models.js";
 import { logger } from "../utils/logger.utils.js";
-import { tokensModel } from "../models/tokens.model.js";
+import { tokensModel } from "./models/tokens.models.js";
 
 export class CartsMongoDao {
   async create(docs) {
