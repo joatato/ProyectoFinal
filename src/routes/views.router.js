@@ -6,31 +6,6 @@ import { authorizeUser, passportCall } from "../middlewares/sessions.middleware.
 
 const router = Router();
 
-router.get("/logup", (req, res) => {
-  if (req.cookies.idToken) return res.redirect("/products");
-  res.setHeader("Content-Type", "text/html");
-  res.status(200).render("logup", { styles: "logup.css" });
-});
-
-router.get("/login", (req, res) => {
-  if (req.cookies.idToken) return res.redirect("/products");
-  res.setHeader("Content-Type", "text/html");
-  res.status(200).render("login", { styles: "login.css" });
-});
-
-router.get("/forgotPassword", (req, res) => {
-  if (req.cookies.idToken) return res.redirect("/products");
-  res.setHeader("Content-Type", "text/html");
-  res.status(200).render("forgotPassword", { styles: "forgotPassword.css" });
-})
-
-router.get("/passwordreset/:email/:token", (req, res) => {
-  if (req.cookies.idToken) return res.redirect("/products");
-  let { email, token } = req.params;
-  res.setHeader("Content-Type", "text/html");
-  res.status(200).render("passwordReset", { email, token, styles: "passwordReset.css" });
-})
-
 router.get('/logout', (req, res) => {
   req.session.destroy((error) => {
     if (error) {
@@ -98,7 +73,7 @@ router.get("/home", async(req, res) => {
   });
 });
 
-router.get("/products", passportCall("jwt"), authorizeUser(["user", "premium", "admin"]), async (req, res) => {
+router.get("/products", passportCall("jwt") , authorizeUser(["user", "premium", "admin"]), async (req, res) => {
   let products = await productsViewController.getProducts(req.query);
   let user = req.user;
   res.setHeader("Content-Type", "text/html");

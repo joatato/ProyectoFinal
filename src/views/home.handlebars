@@ -10,7 +10,7 @@
                     <li><a href="index.html">
                             INICIO
                         </a></li>
-                    <li><a href="pages/productos.html">
+                    <li><a href="/products">
                             PRODUCTOS
                         </a></li>
                     <li><a href="pages/ubicacion.html">
@@ -76,18 +76,6 @@
         <div class="conteiner">
             {{#if existenciaDeStock}}
             <div class="row">
-                {{!-- <div class="col">
-                    <div class="contexto__producto">
-                        <img class="imagen__producto" src="img/Calafate.jpg" alt="Estufa Calafate-800-600">
-                        <h2 class="product__title">Calafate</h2>
-                        <p class="product__description">
-                            De lo mejor en Tromen
-                        </p>
-                        <button class="btn btn-warning">
-                            Mas información
-                        </button>
-                    </div>
-                </div> --}}
                 {{#each products.payload}}
                 <div class="col">
                     <div class="contexto__producto">
@@ -116,23 +104,6 @@
                     </div>
                 </div>
                 {{/each}}
-                {{!-- {{#each productos}}
-                <div class="col">
-                    <div class="contexto__producto">
-                        <img class="imagen__producto" src="img/Salamandra.jpg" alt="Salamandra-9000-kca-tromen-chalten">
-                        <h2 class="product__title">{{this.title}}</h2>
-                        <p class="product__price">
-                            Precio: {{this.price}}
-                        </p>
-                        <p class="product__description">
-                            Descripción: {{this.description}}
-                        </p>
-                        <button class="btn btn-warning">
-                            Mas información
-                        </button>
-                    </div>
-                </div>
-                {{/each}} --}}
             </div>
             {{else}}
             <h3>No hay stock </h3>

@@ -1,5 +1,4 @@
 <h1>Bienvenido a {{title}}</h1>
-
 <hr>
 <br>
 <p>Para ir al Home precione <a href="/">aquí</a>.</p>
@@ -7,18 +6,75 @@
 <p>Para ir al CHAT precione <a href="/chat">aquí</a>.</p>
 <p>Para ir al Real Time Products precione <a href="/realTimeProducts">aquí</a>.</p>
 <br>
-
-
 <h2>Productos de nuestra empresa PAGINADOS</h2>
 <hr>
-
-<ul>
-    {{#each products}}
-    <li>
-        {{this.title}} {{this.category}} - ${{this.price}} ({{this.code}})
-    </li>
+<form id="paramsForm" action="">
+  <label for="category">Categoría:</label>
+  <select name="category" id="categorySelect">
+    <option value="">Todas</option>
+    {{#each categoria}}
+        <option value="{{value}}">{{value}}</option>
     {{/each}}
-</ul>
+    <option value="cat_a">cat_a</option>
+    <option value="cat_b">cat_b</option>
+    <option value="cat_c">cat_c</option>
+    <option value="cat_d">cat_d</option>
+  </select>
+  <label for="status">Estado:</label>
+  <select name="status" id="statusSelect">
+    <option value="">Todos</option>
+    <option value="true">Disponible</option>
+    <option value="false">No disponible</option>
+  </select>
+  <label for="sort">Ordenar por precio:</label>
+  <select name="sort" id="sortSelect">
+    <option value="">No ordenar</option>
+    <option value="asc">Ascendente</option>
+    <option value="desc">Descendente</option>
+  </select>
+  <label for="limit">Cantidad por página:</label>
+  <input type="text" id="limitInput" />
+  <label for="page">Página:</label>
+  <input type="text" id="pageInput" />
+</form>
+<section class="productos">
+        <div class="conteiner">
+            {{#if existenciaDeStock}}
+            <div class="row">
+                {{#each products.payload}}
+                <div class="col">
+                    <div class="contexto__producto">
+                        <img class="imagen__producto" src="img/{{this.thumbnail}}" alt={{this.thumbnail.imageDescription}}>
+                        <h2 class="product__title">{{this.title}}</h2>
+                        <p class="product__price">
+                            Precio: {{this.price}}
+                        </p>
+                        <p class="product__description">
+                            Descripción: {{this.description}}
+                        </p>
+                        {{#if this.status}}
+                        <p>Disponible</p>
+                        <form class="addToCartForm" id="{{this._id}}" data-owner="{{this.owner}}">
+                            <label>Cantidad:
+                                <input type="text" name="quantity" class="quantity" />
+                            </label>
+                            <input type="submit" value="Agregar al carrito" />
+                        </form>
+                        {{else}}
+                        <p>No disponible</p>
+                        {{/if}}
+                        <button class="btn btn-warning">
+                            Mas información
+                        </button>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+            {{else}}
+            <h3>No hay stock </h3>
+            {{/if}}
+        </div>
+    </section>
 
 <a href="/products/?pagina=1">Primer página</a>
 {{#if hasPrevPage}}

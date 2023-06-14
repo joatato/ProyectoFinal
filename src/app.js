@@ -9,6 +9,8 @@ import path from 'path';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import cookieParser from 'cookie-parser'
+import passport from 'passport';
+import compression from 'express-compression';
 
 
 import productsRouter from './routes/products.router.js';
@@ -76,16 +78,6 @@ app.use('/api/products', (req, res, next) => {
   req.serverSocket = io;
   next();
 }, productsRouter);
-
-// app.use(session({
-//   secret: config.app.SECRET,
-//   resave: true,
-//   saveUninitialized: true,
-//   store: MongoStore.create({
-//     mongoUrl: config.database.mongoUrl,
-//     ttl: 60
-//   })
-// }));
 
 app.use('/api/sessions', sessionsRouter)
 app.use('/api/carts', cartsRouter);

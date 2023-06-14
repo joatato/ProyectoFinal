@@ -9,7 +9,7 @@ const customLevelOptions = {
     info: 3,
     http: 4,
     debug: 5,
-  },  
+  },
   colors: {
     fatal: "magenta",
     error: "red",
@@ -28,6 +28,7 @@ switch (currentEnvironment) {
         level: "debug",
         format: winston.format.combine(winston.format.colorize({ colors: customLevelOptions.colors }), winston.format.simple()),
       }),
+      new winston.transports.File({ level: "error", filename: "./src/files/logs/errors.log" }),
     ];
     break;
   case "staging":
