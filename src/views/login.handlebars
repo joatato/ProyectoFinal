@@ -1,21 +1,22 @@
-<div>
-    <h3>Login usuarios:</h3>
+<div class="container">
+        <h3>Login de usuarios:</h3>
 
-    <form action="/api/sessions/login" method="post">
-        <input type="email" placeholder="ingrese se email" name="email">
-        <input type="password" placeholder="ingrese su contraseña" name="password">
+        <form class="login-form" action="/api/sessions/login" method="post">
+            <input type="email" placeholder="Ingrese su correo electrónico" name="email" required>
+            <input type="password" placeholder="Ingrese su contraseña" name="password" required>
+            <br><br>
+            <input type="submit" value="Ingresar">
+        </form>
+
         <br><br>
-        <input type="submit" value="Ingresar">
-    </form>
-
-    <br><br>
-    <div>
-        <p>¿no estas registrado? ingresa <a href="/registro">aquí</a>...!!!</p>
-        <p>Acceder con: <a href="/api/sessions/github">GitHub</a></p>
-        <p>Acceder con: <a href="/api/sessions/github">Facebook</a></p>
-        <p>Acceder con: <a href="/api/sessions/github">Instagram</a></p>
-        <p>Acceder con: <a href="/api/sessions/github">Twitter</a></p>
-        <p>Olvidaste tu contraseña? <a href="/forgotPassword">Ingresa aquí</a></p>
+        <div class="registration-section">
+            <p>¿No estás registrado? Ingresa <a href="/registro">aquí</a>...!!!</p>
+            <p>Acceder con: <a href="/api/sessions/github">GitHub</a></p>
+            <p>Acceder con: <a href="/api/sessions/facebook">Facebook</a></p>
+            <p>Acceder con: <a href="/api/sessions/instagram">Instagram</a></p>
+            <p>Acceder con: <a href="/api/sessions/twitter">Twitter</a></p>
+            <p>¿Olvidaste tu contraseña? <a href="/forgotPassword">Ingresa aquí</a></p>
+        </div>
     </div>
-</div>
-<script src="/js/login.js"></script>
+
+    <script src="/js/login.js"></script>

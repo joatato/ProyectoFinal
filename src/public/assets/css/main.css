@@ -1,0 +1,85 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    border: 0;
+}
+
+
+/* HEADER */
+header {
+    background-image: url(./../img/Dique-de-Ullum.jpg);
+    height: 40rem;
+    background-position: center center;
+    background-size: cover;
+}
+
+.navbar {
+    justify-content: space-around;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar .navbar__links {
+    list-style: none;
+    border: 6rem;
+    border-color: #0000ff;
+}
+
+.navbar .navbar__links li {
+    margin-left: 1rem;
+}
+
+.navbar .navbar__links li a {
+    text-decoration: none;
+    color: #f0f8ff;
+    font-size: 1.5rem;
+    text-shadow: 2px 2px 2px hsla(0, 0%, 0%, 0.5);
+}
+
+.navbar .navbar__logo {
+    width: 15rem;
+}
+
+
+/* FOOTER */
+footer {
+    color: #000000;
+    background-color: black;
+    padding: 2rem;
+}
+
+.footertext {
+    color: #e2e62c;
+}
+
+/* MEDIA */
+@media (min-width: 768px) {
+    .navbar {
+        flex-direction: row;
+    }
+
+    .container {
+        width: 80%;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .navbar__links {
+        display: flex;
+        flex-direction: row;
+    }
+}
+
+@media only screen and (min-width: 1240px) {
+    .encabezado {
+        font-size: 50px;
+        text-align: center;
+        color: #0000ff;
+    }
+
+    a {
+        color: #0000ff;
+    }
+}

@@ -1,53 +1,59 @@
-h1 {
-  color: brown;
-}
-
-div {
-  text-align: center;
-  font-size: 3rem;
-
-}
-
 body {
-  background-color: white;
-  background-image: radial-gradient(rgb(204, 138, 138) 5px, transparent 5px);
-  background-position: 5 10, 10px 10px;
-  background-size: 25px 20px;
-  animation:
-    pulseDots 0.6s ease-in-out infinite,
-    moveDots 5s linear infinite
+  background-color: #f9f9f9;
 }
 
-@keyframes pulseDots {
-  0% {
-    background-image: radial-gradient(rgb(200, 140, 138) 5px, transparent 5px);
-  }
-
-  20% {
-    background-image: radial-gradient(rgb(180, 130, 138) 5.5px, transparent 5px);
-  }
-  40% {
-    background-image: radial-gradient(rgb(160, 120, 138) 6px, transparent 5px);
-  }
-
-  60% {
-    background-image: radial-gradient(rgb(140, 110, 138) 6.5px, transparent 5px);
-  }
-  80% {
-    background-image: radial-gradient(rgb(160, 120, 138) 6px, transparent 5px);
-  }
-
-  100% {
-    background-image: radial-gradient(rgb(180, 130, 138) 5.5px, transparent 5px);
-  }
+.container {
+  max-width: 50rem;
+  margin: 0 auto;
+  padding: 40px;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-@keyframes moveDots {
-  0% {
-    background-position: 0 0, 1px 1px;
-  }
+h3 {
+  color: #5f5f5f;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
 
-  100% {
-    background-position: 100px 100px, 101px 101px;
-  }
+.login-form input[type="email"],
+.login-form input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.login-form input[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.login-form input[type="submit"]:hover{
+  background-color: #358e38;
+}
+
+.registration-section {
+  margin-top: 20px;
+}
+
+.registration-section p {
+  margin-bottom: 10px;
+}
+
+.registration-section a {
+  color: #4caf50;
+}
+
+.registration-section a:hover {
+  text-decoration: underline;
+  color: #358e38;
 }

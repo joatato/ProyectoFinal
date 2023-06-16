@@ -16,34 +16,36 @@ router.get('/logout', (req, res) => {
   })
 })
 router.get("/logup", (req, res) => {
-  if (req.cookies.idToken) return res.redirect("/home");
+  if (req.cookies.idToken) return res.redirect("/");
   res.setHeader("Content-Type", "text/html");
   res.status(200).render("logup", { styles: "logup.css" });
 });
 
 router.get("/login", (req, res) => {
-  if (req.cookies.idToken) return res.redirect("/home");
+  if (req.cookies.idToken) return res.redirect("/");
   res.setHeader("Content-Type", "text/html");
   res.status(200).render("login", {
     title: "Estufas San Juan | Miguel Agüero",
-    styles: "login.css"
+    styles: "login.css",
+    header: true,
+    footer:true
   });
 });
 
 router.get("/forgotPassword", (req, res) => {
-  if (req.cookies.idToken) return res.redirect("/home");
+  if (req.cookies.idToken) return res.redirect("/");
   res.setHeader("Content-Type", "text/html");
   res.status(200).render("forgotPassword", { styles: "forgotPassword.css" });
 })
 
 router.get("/passwordreset/:email/:token", (req, res) => {
-  if (req.cookies.idToken) return res.redirect("/home");
+  if (req.cookies.idToken) return res.redirect("/");
   let { email, token } = req.params;
   res.setHeader("Content-Type", "text/html");
   res.status(200).render("passwordReset", { email, token, styles: "passwordReset.css" });
 })
 
-router.get("/home", async(req, res) => {
+router.get("/",  passportCall("jwt") , authorizeUser(["user", "premium", "admin"]),async(req, res) => {
 
 
   let products = await productsViewController.getProducts(req.query);

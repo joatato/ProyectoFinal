@@ -1,4 +1,5 @@
 import passport from "passport";
+import { TokensMongoDao } from "../dao/mongo.dao.js";
 
 export const authorizeUser = (authorizedRoles) => {
   return async (req, res, next) => {

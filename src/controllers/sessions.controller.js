@@ -31,7 +31,7 @@ class SessionsController {
   async login(req, res) {
     let token = jwt.sign({ user: req.user }, config.app.secretKey, { expiresIn: "24h" });
     let cookieOptions = { maxAge: 1000 * 60 * 60, httpOnly: true };
-    res.cookie("idToken", token, cookieOptions).redirect("/home");
+    res.cookie("idToken", token, cookieOptions).redirect("/");
   }
 
   async logout(req, res) {
